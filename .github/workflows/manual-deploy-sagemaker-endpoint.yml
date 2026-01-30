@@ -78,12 +78,4 @@ jobs:
           INITIAL_INSTANCE_COUNT: ${{ inputs.initial_instance_count }}
           VARIANT_NAME: ${{ inputs.variant_name }}
         run: |
-          set -euo pipefail
-
-          timestamp=$(date +"%Y%m%d-%H%M%S")
-          model_name="${MODEL_NAME_PREFIX}-v${MODEL_VERSION}-${timestamp}"
-          endpoint_config_name="${ENDPOINT_CONFIG_NAME_PREFIX}-${timestamp}"
-
-          echo "Creating model: ${model_name}"
-          
-          echo "Deployment complete."
+          printenv
