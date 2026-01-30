@@ -6,7 +6,7 @@ on:
       aws_region:
         description: AWS region
         required: true
-        default: us-east-1
+        default: ca-west-1
       endpoint_name:
         description: SageMaker endpoint name
         required: true
