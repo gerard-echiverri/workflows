@@ -414,7 +414,7 @@ if __name__ == "__main__":
     print()
     
     # Step 4: Initialize AWS clients
-    boto_session = get_boto_session(region=AWS_REGION)
+    boto_session = get_boto_session(region=AWS_REGION, role_arn=SAGEMAKER_EXECUTION_ROLE_ARN)
     sagemaker_client = boto_session.client("sagemaker")
     logs_client = boto_session.client("logs")
     sagemaker_session = Session(boto_session=boto_session)
