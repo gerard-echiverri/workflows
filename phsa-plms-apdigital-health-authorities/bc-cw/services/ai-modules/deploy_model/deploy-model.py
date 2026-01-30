@@ -235,9 +235,11 @@ def handle_deployment_result(status: str, endpoint_name: str,
                 print_success("No resources left in broken state")
             else:
                 print_error("Rollback failed")
-                print(f"\nManual cleanup required:")
-                print(f"  aws sagemaker delete-endpoint --endpoint-name {endpoint_name}")
-                print(f"  aws sagemaker delete-endpoint-config --endpoint-config-name {endpoint_name}")
+                print(
+                    f"\nManual cleanup required:\n"
+                    f"  aws sagemaker delete-endpoint --endpoint-name {endpoint_name}\n"
+                    f"  aws sagemaker delete-endpoint-config --endpoint-config-name {endpoint_name}"
+                )
         else:
             print(f"\n{'─'*60}")
             print_warning("Auto-rollback disabled")
