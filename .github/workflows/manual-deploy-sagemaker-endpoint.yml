@@ -3,6 +3,10 @@ name: Manual Deploy SageMaker Endpoint
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: Environment to deploy to
+        required: true
+        default: dev
       aws_region:
         description: AWS region
         required: true
