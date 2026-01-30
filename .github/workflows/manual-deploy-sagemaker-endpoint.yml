@@ -59,8 +59,11 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
+          role-skip-session-tagging: true
           aws-region: ${{ inputs.aws_region }}
-          role-to-assume: ${{ secrets.SAGEMAKER_EXECUTION_ROLE_ARN }}
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          role-duration-seconds: 1800
+          role-session-name: ci-deployment
 
       - name: Deploy SageMaker endpoint
         env:
