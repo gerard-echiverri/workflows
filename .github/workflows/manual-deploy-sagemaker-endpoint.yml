@@ -23,10 +23,6 @@ on:
         description: Model version to deploy (appended to the model name)
         required: true
         default: latest
-      endpoint_config_name_prefix:
-        description: Prefix for the endpoint config name (timestamp will be appended)
-        required: true
-        default: endpoint-config
       ecr_name:
         description: ECR name for inference container
         required: true
@@ -84,7 +80,6 @@ jobs:
           ENDPOINT_NAME: ${{ inputs.endpoint_name }}
           MODEL_PACKAGE_GROUP: ${{ inputs.model_package_group }}
           MODEL_VERSION: ${{ inputs.model_version }}
-          ENDPOINT_CONFIG_NAME_PREFIX: ${{ inputs.endpoint_config_name_prefix }}
           CONTAINER_IMAGE_URI: ${{ inputs.ecr_name }}
           INSTANCE_TYPE: ${{ inputs.instance_type }}
           INITIAL_INSTANCE_COUNT: ${{ inputs.initial_instance_count }}

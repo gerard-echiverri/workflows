@@ -10,7 +10,7 @@ import boto3
 from typing import Optional
 
 
-def get_boto_session(region: Optional[str] = None) -> boto3.Session:
+def get_boto_session(region: Optional[str] = None, role_arn=None) -> boto3.Session:
     """
     Create boto3 session with automatic credential detection.
     
@@ -62,7 +62,22 @@ def get_boto_session(region: Optional[str] = None) -> boto3.Session:
             aws_session_token=aws_session_token
         )
     
-    # Priority 3: Access Key + Secret Key
+    # Priority 3: If role_arn is provided, uses STS to assume the role.
+    if role_arn:
+        sts = boto3.client("sts", region_name=region)
+        assumed = sts.assume_role(
+            RoleArn=role_arn,
+            RoleSessionName="sagemaker-cicd-session"
+        )
+        creds = assumed["Credentials"]
+        return boto3.Session(
+            aws_access_key_id=creds["AccessKeyId"],
+            aws_secret_access_key=creds["SecretAccessKey"],
+            aws_session_token=creds["SessionToken"],
+            region_name=region
+        )
+    
+    # Priority 4: Access Key + Secret Key
     aws_access_key_id = os.environ.get("AWS_ACCESS_KEY_ID")
     aws_secret_access_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
     if aws_access_key_id and aws_secret_access_key:
@@ -72,7 +87,7 @@ def get_boto_session(region: Optional[str] = None) -> boto3.Session:
             aws_secret_access_key=aws_secret_access_key
         )
     
-    # Priority 4: Default credential chain
+    # Priority 5: Default credential chain
     return boto3.Session(region_name=region)
 
 
