@@ -86,6 +86,5 @@ jobs:
           VARIANT_NAME: ${{ inputs.variant_name }}
           SAGEMAKER_EXECUTION_ROLE_ARN: ${{ secrets.SAGEMAKER_EXECUTION_ROLE_ARN }}
         run: |
-          pwd
           python utils/list_model_packages.py
           python deploy-model.py -g "$MODEL_PACKAGE_GROUP" --endpoint-name "$ENDPOINT_NAME" -t "$INSTANCE_TYPE" -g PLMSCWInferenceModelGroup-202601291627
