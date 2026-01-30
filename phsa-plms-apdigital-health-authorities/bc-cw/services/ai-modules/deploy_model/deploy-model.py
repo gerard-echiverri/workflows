@@ -38,7 +38,7 @@ Optional Environment Variables:
     AWS_PROFILE                     : AWS CLI profile name for authentication
 
 Deployment Parameters (via CLI args or env vars):
-    --model-package-arn, -a         : Model package ARN (required, CLI only)
+    --model-package-group, -g       : Model package group name (required, CLI only)
     --instance-type, -t             : Instance type (default: ml.c5.2xlarge)
     --endpoint-name, -e             : Custom endpoint name (default: auto-generated)
     --no-monitor                    : Disable deployment monitoring
@@ -69,22 +69,22 @@ Usage Examples:
     $ export AWS_REGION=us-west-2
     $ export SAGEMAKER_EXECUTION_ROLE_ARN=arn:aws:iam::<account-id>:role/SageMakerRole
     $ python deploy-model.py \
-        --model-package-arn arn:aws:sagemaker:us-west-2:<account-id>:model-package/qc-model/1
+        --model-package-group ModelPackageGroupName
     
     # Deploy to custom endpoint without monitoring
     $ python deploy-model.py \\
-        --model-package-arn arn:aws:sagemaker:... \\
+        --model-package-group ModelPackageGroupName \\
         --endpoint-name qc-production-endpoint \\
         --no-monitor
     
     # Deploy with different instance type for testing
     $ python deploy-model.py \\
-        --model-package-arn arn:aws:sagemaker:... \\
+        --model-package-group ModelPackageGroupName \\
         --instance-type ml.t2.medium
     
     # Deploy without auto-rollback (keep failed endpoints for debugging)
     $ python deploy-model.py \\
-        --model-package-arn arn:aws:sagemaker:... \\
+        --model-package-group ModelPackageGroupName \\
         --skip-rollback
     
     # Full example with all parameters
@@ -92,7 +92,7 @@ Usage Examples:
     $ export SAGEMAKER_EXECUTION_ROLE_ARN=arn:aws:iam::<account-id>:role/SageMakerRole
     $ export AWS_PROFILE=production
     $ python deploy-model.py \
-        --model-package-arn arn:aws:sagemaker:ca-central-1:<account-id>:model-package/QCModel/2 \
+        --model-package-group ModelPackageGroupName \
         --endpoint-name qc-ai-production \\
         --instance-type ml.c5.2xlarge
 
@@ -118,38 +118,6 @@ from utils.output import print_header, print_kv_pairs, print_success, print_erro
 # ========================================
 # VALIDATION FUNCTIONS
 # ========================================
-
-def validate_model_package_arn(arn: str) -> tuple[bool, str]:
-    """
-    Validate model package ARN format and extract components.
-    
-    Args:
-        arn: Model package ARN to validate
-    
-    Returns:
-        tuple: (is_valid, error_message)
-        
-    Example:
-        >>> valid, error = validate_model_package_arn(
-        ...     "arn:aws:sagemaker:ca-central-1:<account-id>:model-package/MyModel/1"
-        ... )
-        >>> print(valid)  # True
-    """
-    if not arn or not isinstance(arn, str):
-        return False, "Model package ARN cannot be empty"
-    
-    if not arn.startswith("arn:aws:sagemaker:"):
-        return False, f"Invalid ARN format. Must start with 'arn:aws:sagemaker:', got: {arn[:30]}..."
-    
-    if ":model-package/" not in arn:
-        return False, f"Invalid ARN. Must contain ':model-package/', got: {arn}"
-    
-    # Expected format: arn:aws:sagemaker:region:account:model-package/group/version
-    parts = arn.split(":")
-    if len(parts) < 6:
-        return False, f"Invalid ARN format. Expected 6+ parts separated by ':', got {len(parts)} parts"
-    
-    return True, ""
 
 
 def validate_instance_type(instance_type: str) -> tuple[bool, str]:
@@ -329,7 +297,7 @@ parser = argparse.ArgumentParser(
     epilog="""
 Quick Start:
   # Basic QC AI model deployment with monitoring (recommended)
-  python deploy-model.py --model-package-arn arn:aws:sagemaker:region:account:model-package/group/version
+  python deploy-model.py --model-package-group arn:aws:sagemaker:region:account:model-package/group/version
 
 Common Options:
   # Custom endpoint name for QC model
@@ -347,7 +315,7 @@ Common Options:
 
 Full Example (QC AI Production Deployment):
   python deploy-model.py \\
-    --model-package-arn arn:aws:sagemaker:ca-central-1:<account-id>:model-package/PLMSCWQCModel/1 \
+    --model-package-group arn:aws:sagemaker:ca-central-1:<account-id>:model-package/PLMSCWQCModel/1 \
     --endpoint-name plmscw-qc-production \\
     --instance-type ml.c5.2xlarge
 
