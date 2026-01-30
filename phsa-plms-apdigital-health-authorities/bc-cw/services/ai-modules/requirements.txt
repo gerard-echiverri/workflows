@@ -1,0 +1,1 @@
+pip install "sagemaker==2.256.1"
