@@ -108,8 +108,7 @@ import time
 from utils.list_model_packages import list_model_packages
 from time import strftime
 from typing import Optional
-from sagemaker.model import ModelPackage
-from sagemaker import Session
+from sagemaker import ModelPackage, Session
 from modules.monitor_endpoint import monitor_and_tail, delete_endpoint
 from utils.boto_session import get_boto_session
 from utils.env_validation import validate_env_vars
