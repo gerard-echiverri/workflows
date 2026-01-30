@@ -15,8 +15,8 @@ on:
         description: SageMaker endpoint name
         required: true
         default: qc-ai-inference-ep
-      model_name_prefix:
-        description: Prefix for the model name (timestamp will be appended)
+      model_package_group:
+        description: Model package group to deploy
         required: true
         default: model
       model_version:
@@ -83,7 +83,7 @@ jobs:
           AWS_REGION: ${{ inputs.aws_region }}
           AWS_ACCOUNT: ${{ vars.AWS_ACCOUNT }}
           ENDPOINT_NAME: ${{ inputs.endpoint_name }}
-          MODEL_NAME_PREFIX: ${{ inputs.model_name_prefix }}
+          MODEL_PACKAGE_GROUP: ${{ inputs.model_package_group }}
           MODEL_VERSION: ${{ inputs.model_version }}
           ENDPOINT_CONFIG_NAME_PREFIX: ${{ inputs.endpoint_config_name_prefix }}
           CONTAINER_IMAGE_URI: ${{ inputs.ecr_name }}
@@ -94,4 +94,4 @@ jobs:
         run: |
           pwd
           
-          python deploy-model.py -g --aws-account "$AWS_ACCOUNT" --endpoint-name "$ENDPOINT_NAME" -t "$INSTANCE_TYPE" -g PLMSCWInferenceModelGroup-202601291627
+          python deploy-model.py -g "$MODEL_PACKAGE_GROUP" --aws-account "$AWS_ACCOUNT" --endpoint-name "$ENDPOINT_NAME" -t "$INSTANCE_TYPE" -g PLMSCWInferenceModelGroup-202601291627
