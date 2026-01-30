@@ -23,9 +23,10 @@ on:
         description: Prefix for the endpoint config name (timestamp will be appended)
         required: true
         default: endpoint-config
-      container_image_uri:
-        description: ECR image URI for inference container
+      ecr_name:
+        description: ECR name for inference container
         required: true
+        default: plmscw-inference-data-dev
       instance_type:
         description: Instance type for production variant
         required: true
