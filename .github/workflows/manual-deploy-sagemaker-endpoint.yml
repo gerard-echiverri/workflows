@@ -22,15 +22,9 @@ on:
         description: Prefix for the endpoint config name (timestamp will be appended)
         required: true
         default: endpoint-config
-      execution_role_arn:
-        description: SageMaker execution role ARN
-        required: true
       container_image_uri:
         description: ECR image URI for inference container
         required: true
-      model_data_s3_uri:
-        description: S3 URI to model artifact (optional for certain containers)
-        required: false
       instance_type:
         description: Instance type for production variant
         required: true
@@ -43,7 +37,7 @@ on:
         description: Production variant name
         required: true
         default: AllTraffic
-
+#./phsa-plms-apdigital-health-authorities/bc-cw
 permissions:
   id-token: write
   contents: read
