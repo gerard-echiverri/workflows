@@ -10,7 +10,7 @@ on:
       aws_region:
         description: AWS region
         required: true
-        default: ca-west-1
+        default: ca-central-1
       endpoint_name:
         description: SageMaker endpoint name
         required: true
@@ -72,10 +72,11 @@ jobs:
           MODEL_NAME_PREFIX: ${{ inputs.model_name_prefix }}
           MODEL_VERSION: ${{ inputs.model_version }}
           ENDPOINT_CONFIG_NAME_PREFIX: ${{ inputs.endpoint_config_name_prefix }}
-          CONTAINER_IMAGE_URI: ${{ inputs.container_image_uri }}
+          CONTAINER_IMAGE_URI: ${{ inputs.ecr_name }}
           MODEL_DATA_S3_URI: ${{ inputs.model_data_s3_uri }}
           INSTANCE_TYPE: ${{ inputs.instance_type }}
           INITIAL_INSTANCE_COUNT: ${{ inputs.initial_instance_count }}
           VARIANT_NAME: ${{ inputs.variant_name }}
+          SAGEMAKER_EXECUTION_ROLE_ARN: ${{ secrets.SAGEMAKER_EXECUTION_ROLE_ARN }}
         run: |
           printenv
