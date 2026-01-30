@@ -10,6 +10,7 @@ on:
       endpoint_name:
         description: SageMaker endpoint name
         required: true
+        default: qc-ai-inference-ep
       model_name_prefix:
         description: Prefix for the model name (timestamp will be appended)
         required: true
