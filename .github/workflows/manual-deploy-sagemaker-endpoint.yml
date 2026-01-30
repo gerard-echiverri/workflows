@@ -18,7 +18,7 @@ on:
       model_package_group:
         description: Model package group to deploy
         required: true
-        default: model
+        default: PLMSCWInferenceModelGroup-202601291627
       model_version:
         description: Model version to deploy (appended to the model name)
         required: true
