@@ -66,6 +66,7 @@ jobs:
           role-session-name: ci-deployment
 
       - name: Deploy SageMaker endpoint
+        working-directory: ./phsa-plms-apdigital-health-authorities/bc-cw/services/ai-modules/deploy_model
         env:
           AWS_REGION: ${{ inputs.aws_region }}
           ENDPOINT_NAME: ${{ inputs.endpoint_name }}
@@ -79,4 +80,5 @@ jobs:
           VARIANT_NAME: ${{ inputs.variant_name }}
           SAGEMAKER_EXECUTION_ROLE_ARN: ${{ secrets.SAGEMAKER_EXECUTION_ROLE_ARN }}
         run: |
+          pwd
           printenv
