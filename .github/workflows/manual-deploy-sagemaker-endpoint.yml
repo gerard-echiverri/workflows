@@ -66,9 +66,9 @@ jobs:
           role-session-name: ci-deployment
 
       - name: Install Python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install --upgrade "sagemaker>=2.100.0"
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
 
       - name: Deploy SageMaker endpoint
         working-directory: ./phsa-plms-apdigital-health-authorities/bc-cw/services/ai-modules/deploy_model
