@@ -87,4 +87,4 @@ jobs:
           SAGEMAKER_EXECUTION_ROLE_ARN: ${{ secrets.SAGEMAKER_EXECUTION_ROLE_ARN }}
         run: |
           python utils/list_model_packages.py
-          python deploy-model.py -g "$MODEL_PACKAGE_GROUP" --endpoint-name "$ENDPOINT_NAME" -t "$INSTANCE_TYPE" -g PLMSCWInferenceModelGroup-202601291627
+          python deploy-model.py -g "$MODEL_PACKAGE_GROUP" --endpoint-name "$ENDPOINT_NAME" -t "$INSTANCE_TYPE"
